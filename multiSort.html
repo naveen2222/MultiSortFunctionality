@@ -1,0 +1,120 @@
+<script>
+var data = [
+{
+"sno": "1",
+"loadId": "40811735",
+"origin":"6094",
+"destination":"1277",
+"appointment":"Live",
+"pickupStart":"Today"
+},
+{
+"sno": "2",
+"loadId": "40757250",
+"origin":"6085",
+"destination":"1776",
+"appointment":"Pool",
+"pickupStart":"Tomorrow"
+},
+{
+"sno": "3",
+"loadId": "40812686",
+"origin":"1235",
+"destination":"1727",
+"appointment":"Strict",
+"pickupStart":"Tomorrow"
+},
+{
+"sno": "4",
+"loadId": "40812727",
+"origin":"2589",
+"destination":"958",
+"appointment":"Strict",
+"pickupStart":"Tomorrow"
+},
+{
+"sno": "5",
+"loadId": "40767452",
+"origin":"3899",
+"destination":"2509",
+"appointment":"Pool",
+"pickupStart":"Today"
+},
+{
+"sno": "6",
+"loadId": "40752142",
+"origin":"6088",
+"destination":"1551",
+"appointment":"Live",
+"pickupStart":"Tomorrow"
+},
+{
+"sno": "7",
+"loadId": "40754971",
+"origin":"6589",
+"destination":"5373",
+"appointment":"Pool",
+"pickupStart":"Tomorrow"
+},{
+"sno": "8",
+"loadId": "40675100",
+"origin":"3234",
+"destination":"5668",
+"appointment":"Live",
+"pickupStart":"Tomorrow"
+},
+{
+"sno": "9",
+"loadId": "40672403",
+"origin":"4568",
+"destination":"5397",
+"appointment":"Live",
+"pickupStart":"Tomorrow"
+},{
+"sno": "10",
+"loadId": "40662777",
+"origin":"6075",
+"destination":"3646",
+"appointment":"Pool",
+"pickupStart":"Today"
+},
+{
+"sno": "11",
+"loadId": "40715269",
+"origin":"6025",
+"destination":"5898",
+"appointment":"Strict",
+"pickupStart":"Today"
+},
+
+];
+
+var sortOrder =[{"key":"appointment","order":"ASC","type":"string"},{"key":"destination","order":"ASC","type":"number"},{"key":"origin","order":"ASC","type":"number"}];
+var sortOrder1 =[{"key":"appointment","order":"ASC","type":"string"},{"key":"destination","order":"ASC","type":"number"},{"key":"origin","order":"DSC","type":"number"}];
+var sortOrder2 =[{"key":"appointment","order":"ASC","type":"string"},{"key":"destination","order":"DSC","type":"number"},{"key":"origin","order":"DSC","type":"number"}];
+var sortOrder3 =[{"key":"appointment","order":"DSC","type":"string"},{"key":"destination","order":"DSC","type":"number"},{"key":"origin","order":"DSC","type":"number"}];
+
+var multiSorting = (order) =>  (a, b) => order.map(o => {
+	var dir = o['order'] === "ASC"  ? 1 : -1;
+	
+	if (o['type'] == 'string') {
+		return dir < 0 ? b[o['key']].localeCompare(a[o['key']]) : a[o['key']].localeCompare(b[o['key']]);
+	}
+	else if (o['type'] == 'number') {
+		return dir < 0 ? b[o['key']] - a[o['key']] : a[o['key']] - b[o['key']];
+	}
+	else if (o['type'] == 'boolean') {
+		let x = dir < 0 ? (a[o['key']] === b[o['key']]) ? 0 : a[o['key']]? -1 : 1 : (a[o['key']] === b[o['key']]) ? 0 : a[o['key']]? 1 : -1;
+		return x;
+	}
+  }).reduce((p, n) => p ? p : n, 0);
+  
+var resluts = data.sort(multiSorting(sortOrder));
+console.log( JSON.stringify(resluts));
+var resluts1 = data.sort(multiSorting(sortOrder1));
+console.log( JSON.stringify(resluts1));
+var resluts2 = data.sort(multiSorting(sortOrder2));
+console.log( JSON.stringify(resluts2));
+var resluts3 = data.sort(multiSorting(sortOrder3));
+console.log( JSON.stringify(resluts3));
+</script>
